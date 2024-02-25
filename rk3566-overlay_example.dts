@@ -1,0 +1,32 @@
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/pinctrl/rockchip.h>
+#include <dt-bindings/interrupt-controller/irq.h>
+
+/ {
+	fragment@0 {
+		target = <&i2c2>;
+
+		__overlay__ {
+			status = "okay";
+			pinctrl-names = "default";
+			pinctrl-0 = <&i2c2m1_xfer>;
+			#address-cells = <1>;
+        	#size-cells = <0>;
+			
+			touchscreen@41 {
+				compatible = "ilitek,ili2302";
+				reg = <0x41>;
+				
+				interrupt-parent = <&gpio3>;
+				interrupts = <RK_PC6 IRQ_TYPE_EDGE_FALLING>;
+				reset-gpios = <&gpio3 RK_PC7 GPIO_ACTIVE_LOW>;
+				wakeup-source;
+			};
+			
+		};
+		
+	};
+};
